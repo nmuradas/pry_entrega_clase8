@@ -14,15 +14,15 @@ const router = express.Router();
 app.use('/api/productos', router);
 
 // GET /api/productos
-router.get('/', async (req, res) => {
-    const products = await contenedor.getAll();
+router.get('/', (req, res) => {
+    const products = contenedor.getAll();
     res.json(products)
 })
 
 // GET /api/productos/:id
-router.get('/:id', async (req, res) => {
+router.get('/:id', (req, res) => {
     const {id} = req.params;
-    const product = await contenedor.getById(id);
+    const product = contenedor.getById(id);
 
     product
         ? res.json(product)
@@ -31,26 +31,26 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST /api/productos
-router.post('/', async (req,res) => {
+router.post('/', (req,res) => {
     const {body} = req;
-    const newProductId = await contenedor.save(body);
+    const newProductId =  contenedor.save(body);
     res.json(`Producto agregado con el ID: ${newProductId}`)
 })
 
 // PUT /api/productos/:id
-router.put('/:id', async (req, res) => {
+router.put('/:id', (req, res) => {
     const {id} = req.params;
     const {body} = req;
-    const wasUpdated = await contenedor.updateById(id,body);
+    const wasUpdated =  contenedor.updateById(id,body);
     wasUpdated
         ? res.json(`El producto de ID: ${id} fue actualizado`)
         : res.json(`El producto no fue actualizado porque no se encontró el ID: ${id}`);
 })
 
 // DELETE /api/productos/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', (req, res) => {
     const {id} = req.params;
-    const wasDeleted = await contenedor.deleteById(id);
+    const wasDeleted = contenedor.deleteById(id);
     wasDeleted 
         ? res.json(`El producto de ID: ${id} fue borrado`)
         : res.json(`El producto no fue borrado porque no se encontró el ID: ${id}`);

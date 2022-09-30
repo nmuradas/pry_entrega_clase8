@@ -4,13 +4,12 @@ class Contenedor {
   }
 
 
-  async getById(id) {
+  getById(id) {
     id = Number(id);
     try {
-      const data = await this.getData();
-      const parsedData = data;
+      const data = this.getAll();
 
-      return parsedData.find((producto) => producto.id === id);
+      return data.find((producto) => producto.id === id);
     } catch (error) {
       console.log(
         `Error Code: ${error.code} | Ocurrió un error al intentar obtener un elemento por su ID (${id})`
@@ -18,18 +17,17 @@ class Contenedor {
     }
   }
 
-  async deleteById(id) {
+  deleteById(id) {
     try {
       id = Number(id);
-      const data = await this.getData();
-      const parsedData = data;
-      const objectIdToBeRemoved = parsedData.find(
+      const data = this.getAll();
+      const objectIdToBeRemoved = data.find(
         (producto) => producto.id === id
       );
 
       if (objectIdToBeRemoved) {
-        const index = parsedData.indexOf(objectIdToBeRemoved);
-        parsedData.splice(index, 1);
+        const index = data.indexOf(objectIdToBeRemoved);
+        data.splice(index, 1);
         return true;
       } else {
         console.log(`ID ${id} no existente`);
@@ -42,21 +40,20 @@ class Contenedor {
     }
   }
 
-  async updateById(id, newData) {
+  updateById(id, newData) {
     try {
       id = Number(id);
-      const data = await this.getData();
-      const parsedData = data;
-      const objectIdToBeUpdated = parsedData.find(
+      const data = this.getAll();
+      const objectIdToBeUpdated = data.find(
         (producto) => producto.id === id
       );
       if (objectIdToBeUpdated) {
-        const index = parsedData.indexOf(objectIdToBeUpdated);
+        const index = data.indexOf(objectIdToBeUpdated);
         const {title, price, thumbnail} = newData;
 
-        parsedData[index]['title'] = title;
-        parsedData[index]['price'] = price;
-        parsedData[index]['thumbnail'] = thumbnail;
+        data[index]['title'] = title;
+        data[index]['price'] = price;
+        data[index]['thumbnail'] = thumbnail;
         return true;
       } else {
         console.log(`ID ${id} no existente`);
@@ -68,14 +65,13 @@ class Contenedor {
     }
   }
 
-  async save(object) {
+  save(object) {
     try {
-      const allData = await this.getData();
-      const parsedData = allData;
+      const allData = this.getAll();
       let newId;
-      newId = parsedData.length > 0 ? parsedData[parsedData.length-1].id +1 : 1;
+      newId = allData.length > 0 ? allData[allData.length-1].id +1 : 1;
       object.id = newId;
-      parsedData.push(object);
+      allData.push(object);
       return object.id;
     } catch (error) {
       console.log(
@@ -84,14 +80,8 @@ class Contenedor {
     }
   }
 
-
-  async getData() {
-    const data = this.products;
-    return data;
-  }
-
-  async getAll() {
-    const data = await this.getData();
+    getAll() {
+      const data = this.products;
     return data;
   }
 }
