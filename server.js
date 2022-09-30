@@ -16,7 +16,7 @@ app.use('/api/productos', router);
 // GET /api/productos
 router.get('/', async (req, res) => {
     const products = await contenedor.getAll();
-    res.status(200).json(products)
+    res.json(products)
 })
 
 // GET /api/productos/:id
@@ -25,8 +25,8 @@ router.get('/:id', async (req, res) => {
     const product = await contenedor.getById(id);
 
     product
-        ? res.status(200).json(product)
-        : res.status(404).json({error: "Producto no encontrado"});
+        ? res.json(product)
+        : res.json({error: "Producto no encontrado"});
     
 })
 
@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req,res) => {
     const {body} = req;
     const newProductId = await contenedor.save(body);
-    res.status(200).send(`Producto agregado con el ID: ${newProductId}`)
+    res.json(`Producto agregado con el ID: ${newProductId}`)
 })
 
 // PUT /api/productos/:id
@@ -43,8 +43,8 @@ router.put('/:id', async (req, res) => {
     const {body} = req;
     const wasUpdated = await contenedor.updateById(id,body);
     wasUpdated
-        ? res.status(200).send(`El producto de ID: ${id} fue actualizado`)
-        : res.status(404).send(`El producto no fue actualizado porque no se encontró el ID: ${id}`);
+        ? res.json(`El producto de ID: ${id} fue actualizado`)
+        : res.json(`El producto no fue actualizado porque no se encontró el ID: ${id}`);
 })
 
 // DELETE /api/productos/:id
@@ -52,8 +52,8 @@ router.delete('/:id', async (req, res) => {
     const {id} = req.params;
     const wasDeleted = await contenedor.deleteById(id);
     wasDeleted 
-        ? res.status(200).send(`El producto de ID: ${id} fue borrado`)
-        : res.status(404).send(`El producto no fue borrado porque no se encontró el ID: ${id}`);
+        ? res.json(`El producto de ID: ${id} fue borrado`)
+        : res.json(`El producto no fue borrado porque no se encontró el ID: ${id}`);
 })
 
 
