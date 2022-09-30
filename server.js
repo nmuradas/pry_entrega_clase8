@@ -1,6 +1,6 @@
 const express = require('express');
 const Contenedor = require('./src/containers/contenedor')
-const contenedor = new Contenedor("productos.json");
+const contenedor = new Contenedor();
 const app = express();
 app.use(express.static('public'));
 
