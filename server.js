@@ -57,9 +57,9 @@ router.delete('/:id', async (req, res) => {
 })
 
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
-console.log(` >>>>> 🚀 Server started at http://localhost:${PORT}`)
+console.log(`Servidor escuchando en el puerto ${server.address().port}`)
 })
 
 server.on('error', (err) => console.log(err));
